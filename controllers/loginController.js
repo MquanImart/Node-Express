@@ -12,9 +12,6 @@ exports.checkUser = async (req, res, next) => {
         res.send(false);
     }
 }
-exports.createNewAccount = async (req, res, next) => {
-    res.send("Tao Tai Khoan");
-}
 exports.sendCode = async (req, res, next) => {
     let {username} = req.body;
     result = await Account.sendCode(username);
@@ -46,6 +43,13 @@ exports.changePassword = async (req, res, next) => {
         res.send(false);
     }
 }
-exports.changeInfoAccount = async (req, res, next) => {
-    res.send("Thay Doi Thong Tin");
+exports.Resgister = async (req, res, next) => {
+    let {name, email, phone, dob, gender, username, password, enterpass, role_id} = req.body;
+    if (password === enterpass){
+        await Account.createAccount(username, password, role_id, name, email, phone, gender, dob);
+        res.send(true);
+    }
+    else{
+        res.send(false);
+    }
 }

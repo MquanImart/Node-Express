@@ -57,5 +57,28 @@ class Account {
         const [result, _] = await db.execute(sql);
         console.log(result);
     }
+    static async getnewID(){{
+        let i = 1;
+        let dk = true;
+        while(dk){
+          let sql = `SELECT id FROM accounts WHERE id = ${i}`;
+          const [result, _] = await db.execute(sql);
+          if (result.length <= 0){
+            break;
+          }
+          i = i + 1;
+        }
+        return i;
+    }}
+    static async createAccount(username, password, role_id, name, email, phone, gender, dob){
+      let id = await this.getnewID();
+      let sql = `INSERT INTO accounts(id, username, pass, role_id, active) values(${id}, '${username}', '${password}',${role_id}, ${1});`;
+      console.log(sql);
+      const [result, _] = await db.execute(sql);
+      sql = `INSERT INTO info_user(id, name, email, phone, gender, dob) values(${id}, '${name}', '${email}','${phone}', ${gender}, '${dob}');`;
+      console.log(sql);
+      const [result1, __] = await db.execute(sql);
+    }
+
 }
 module.exports = Account;

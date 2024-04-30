@@ -6,4 +6,5 @@ router.route("/").post(loginControllers.checkUser);
 router.route("/sendcode/").post(loginControllers.sendCode);
 router.route("/changepass/").post(loginControllers.openchangePassword);
 router.route("/submitchangepass/").post(loginControllers.changePassword);
+router.route("/resgister/").post(loginControllers.Resgister);
 module.exports = router;
