@@ -12,6 +12,16 @@ exports.checkUser = async (req, res, next) => {
         res.send(false);
     }
 }
+exports.getIDUser = async (req, res, next) => {
+    let username = req.params.username;
+    let result = await Account.getIdUser(username);
+    if (result != null){
+        res.send(result);
+    }
+    else{
+        res.send(null);
+    }
+}
 exports.sendCode = async (req, res, next) => {
     let {username} = req.body;
     result = await Account.sendCode(username);

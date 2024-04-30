@@ -3,3 +3,14 @@ exports.getGenre = async (req, res, next) => {
     let listgenre = await Genre.getAllGenre();
     res.send(listgenre);
 }
+exports.addGenre = async (req, res, next) => {
+    let id = req.params.id;
+    let {listgenre} = req.body;
+    result = await Genre.addGenre(id, listgenre);
+    if (result){
+        res.send(true);
+    }
+    else{
+        res.send(false);
+    }
+}

@@ -14,7 +14,14 @@ class Account {
         }
         return false;
     }
-    
+    static async getIdUser(username){
+      let sql = `SELECT id FROM accounts WHERE username = '${username}';`;
+      const [result, _] = await db.execute(sql);
+      if (result.length > 0){
+        return result;
+      }
+      return null;
+  }
     static async sendCode(username_change){
         let sql = `SELECT email FROM info_user WHERE id = (SELECT id FROM accounts WHERE username = '${username_change}');`;
         console.log(sql);
