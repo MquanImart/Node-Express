@@ -35,3 +35,14 @@ exports.addBook = async (req, res, next) => {
         res.status(500).send("Error adding book");
     }
 }
+
+exports.deleteBook = async (req, res, next) => {
+    let id = req.query.id;
+    result = await Book.deleteBook(id);
+    if (result){
+        res.send(true);
+    }
+    else{
+        res.send(false);
+    }
+}

@@ -22,6 +22,12 @@ class Book{
         const [result, _] = await db.execute(sql, values);
         return result;
     }
+
+    static async deleteBook(id){
+        let sql = `UPDATE book SET active=0 WHERE id=?`;
+        const [result, _] = await db.execute(sql, [id]);
+        return result;
+    }
 }
 
 module.exports = Book;
