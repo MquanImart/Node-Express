@@ -1,7 +1,7 @@
 const db = require('../config/db');
 class Book{
     constructor(title, author, describes, img_link, genre_id){
-        thid.title = title;
+        this.title = title;
         this.author = author;
         this.post_date = new Date();
         this.describes = describes;
@@ -12,6 +12,14 @@ class Book{
     static async getAllBooks(){
         let sql = `SELECT * FROM book;`;
         const [result, _] = await db.execute(sql);
+        return result;
+    }
+
+    async insertBook() {
+        let sql = `INSERT INTO book (title, author, post_date, describes, img_link, genre_id) 
+                   VALUES (?, ?, ?, ?, ?, ?);`;
+        const values = [this.title, this.author, this.post_date, this.describes, this.img_link, this.genre_id];
+        const [result, _] = await db.execute(sql, values);
         return result;
     }
 }
