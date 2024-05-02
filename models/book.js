@@ -14,6 +14,13 @@ class Book{
         const [result, _] = await db.execute(sql);
         return result;
     }
+    static async getBooksByIds(bookIds) {
+        // Create a comma-separated list of placeholders
+        // const placeholders = bookIds.map(() => '?').join(', ');
+        const sql = `SELECT * FROM book WHERE id IN (${bookIds});`;
+        const [result, _] = await db.execute(sql);
+        return result;
+    }
 
     async insertBook() {
         let sql = `INSERT INTO book (title, author, post_date, describes, img_link, genre_id) 
