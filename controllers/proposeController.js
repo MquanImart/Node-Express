@@ -13,3 +13,8 @@ exports.getHistory = async (req, res, next) => {
     let result = await Propose.getHistorySql(id_user);
     res.send(result);
 }
+exports.getLoveBook = async (req, res, next) => {
+    let id_user = req.params.id_user;
+    let result = await Propose.getLoveBookSql(id_user);
+    res.send(result);
+}
