@@ -10,15 +10,19 @@ class Book{
     }
 
     static async getAllBooks(){
-        let sql = `SELECT * FROM book;`;
+        let sql = `SELECT * FROM book WHERE active=1;`;
         const [result, _] = await db.execute(sql);
         return result;
     }
     static async getBooksByIds(bookIds) {
-        // Create a comma-separated list of placeholders
-        // const placeholders = bookIds.map(() => '?').join(', ');
-        const sql = `SELECT * FROM book WHERE id IN (${bookIds});`;
+        const sql = `SELECT * FROM book WHERE id IN (${bookIds}) and active=1;`;
         const [result, _] = await db.execute(sql);
+        return result;
+    }
+
+    static async getFavBooks(userId){
+        const sql = `SELECT * FROM book where id IN (SELECT book_id FROM fav_book WHERE user_id = ?) and active=1`;
+        const [result, _] = await db.execute(sql, [userId]);
         return result;
     }
 
@@ -31,8 +35,8 @@ class Book{
     }
 
     static async deleteBook(id){
-        let sql = `UPDATE book SET active=0 WHERE id=?`;
-        const [result, _] = await db.execute(sql, [id]);
+        let sql = `UPDATE book SET active=0 WHERE id IN (?)`;
+        const [result, _] = await db.execute(sql, id);
         return result;
     }
 }
