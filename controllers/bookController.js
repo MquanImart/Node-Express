@@ -68,7 +68,7 @@ exports.getBookById = async (req, res, next) => {
     }
 }
 
-exports.getFavBooks = async(req, res, next) => {
+exports.getFavBooks = async (req, res, next) => {
     /*
     Request format: 
     {

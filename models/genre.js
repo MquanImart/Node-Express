@@ -9,6 +9,14 @@ class Genre {
         const [result, _] = await db.execute(sql);
         return result;
     }
+
+    static async getFavGenreIds(user_id){
+        let sql = `SELECT id_genre FROM fav_genre WHERE id_user = ?`
+        const [result, _] = await db.execute(sql, [user_id]);
+        const genreIds = result.map(row => row.id_genre);
+        return {"genre_ids" : genreIds};
+    }
+
     static async addGenre(id, listgenre){
         const selectedIds = [];
         for (const genre in listgenre) {
