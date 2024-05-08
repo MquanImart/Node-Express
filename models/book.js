@@ -25,6 +25,12 @@ class Book{
         const [result, _] = await db.execute(sql, [userId]);
         return result;
     }
+    
+    static async getRecentViewBooks(user_id){
+        const sql = `SELECT * FROM book INNER JOIN history_view ON book.id = history_view.book_id where user_id = ? ORDER BY view_time DESC`
+        const [result, _] = await db.execute(sql, [user_id]);
+        return result;
+    }
 
     async insertBook() {
         let sql = `INSERT INTO book (title, author, post_date, describes, img_link, genre_id) 

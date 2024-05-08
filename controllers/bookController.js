@@ -84,3 +84,20 @@ exports.getFavBooks = async (req, res, next) => {
         res.send(false);
     }
 }
+
+exports.getRecentViewBooks = async (req, res, next) => {
+    /*
+    Request format: 
+    {
+        "user_id" : number
+    }
+    */
+    let user_id = req.body.user_id;
+    result = await Book.getRecentViewBooks(user_id)
+    if (result){
+        res.send(result);
+    }
+    else{
+        res.send(false);
+    }
+}
