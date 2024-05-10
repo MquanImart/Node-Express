@@ -48,8 +48,7 @@ exports.deleteBook = async (req, res, next) => {
 }
 
 exports.getBookById = async (req, res, next) => {
-    let id = req.query.id.replace(/\[|\]/g, "")
-    console.log(id)
+    let id = req.params.id;
     result = await Book.getBooksByIds(id);
     if (result){
         res.send(result);

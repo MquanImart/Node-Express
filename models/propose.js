@@ -31,10 +31,20 @@ class Propose {
         return result;
     }
     static async getLoveBookSql(id_user){  
-        let sql = `SELECT book.* FROM book JOIN (SELECT * FROM fav_book WHERE user_id = ${id_user}) as favb ON book.id = favb.book_id ORDER BY id ASC LIMIT 20;`
+        let sql = `SELECT book.* FROM book JOIN (SELECT * FROM fav_book WHERE user_id = ${id_user}) as favb ON book.id = favb.book_id ORDER BY id ASC;`
         const [result, __] = await db.execute(sql);
         console.log(sql);
         return result;
+    }
+    static async deleteBookLove(id_user, id_book){  
+        let sql = `DELETE FROM fav_book WHERE user_id = ${id_user} and book_id = ${id_book};`
+        console.log(sql);
+        try{
+            await db.execute(sql);
+        }catch{
+            return false;
+        }
+        return true;
     }
 }
 module.exports = Propose;
