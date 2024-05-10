@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 
 // Middleware
-app.use(express.json()); // parse json bodies in the request object
+app.use(express.json({limit: '50mb'})); // parse json bodies in the request object
 
 // Redirect requests to endpoint starting with /posts to postRoutes.js
 app.use("/login", require("./routes/loginRoutes"));

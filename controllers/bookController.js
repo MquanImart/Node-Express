@@ -1,4 +1,6 @@
 const Book = require('../models/book');
+const fetch = require('node-fetch');
+
 exports.getBook = async (req, res, next) => {
     try {
         const listbook = await Book.getAllBooks();
@@ -101,3 +103,62 @@ exports.getRecentViewBooks = async (req, res, next) => {
         res.send(false);
     }
 }
+
+
+
+exports.imgSearch = async (req, res, next) => {
+    const bodyData = req.body;
+    try {
+        const response = await fetch('http://127.0.0.1:5000/queryimg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bodyData),
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData);
+            // Xử lý phản hồi từ server Flask nếu cần
+            res.json(responseData);
+        } else {
+            // Xử lý lỗi nếu có
+            console.error('Server response not ok:', response.statusText);
+            res.status(response.status).send('Server Error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        // Xử lý lỗi nếu có
+        res.status(500).send('Internal Server Error')
+    }
+};
+
+exports.textSearch = async (req, res, next) => {
+    const bodyData = req.body;
+    try {
+        const response = await fetch('http://127.0.0.1:5000/querytext', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bodyData),
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData);
+            // Xử lý phản hồi từ server Flask nếu cần
+            res.json(responseData);
+        } else {
+            // Xử lý lỗi nếu có
+            console.error('Server response not ok:', response.statusText);
+            res.status(response.status).send('Server Error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        // Xử lý lỗi nếu có
+        res.status(500).send('Internal Server Error')
+    }
+};
+

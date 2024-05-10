@@ -32,6 +32,7 @@ class Book{
         return result;
     }
 
+
     async insertBook() {
         let sql = `INSERT INTO book (title, author, post_date, describes, img_link, genre_id) 
                    VALUES (?, ?, ?, ?, ?, ?);`;
