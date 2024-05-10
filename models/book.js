@@ -4,7 +4,14 @@ class Book{
         this.id = id;
         this.title = title;
         this.author = author;
-        this.post_date = new Date(Date.now());
+
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const formattedDate = `${year}/${month}/${day}`;
+        this.post_date = formattedDate;
+
         this.describes = describes;
         this.img_link = img_link;
         this.genre_id = genre_id;
@@ -40,6 +47,19 @@ class Book{
         const values = [this.id, this.title, this.author, this.post_date, this.describes, this.img_link, this.genre_id];
         const [result, _] = await db.execute(sql, values);
         return result;
+    }
+    async updateBook() {
+        let sql = `UPDATE book set title = '${this.title}', author = '${this.author}', 
+        post_date = '${this.post_date}', describes = '${this.describes}', 
+        img_link='${this.img_link}', genre_id=${this.genre_id} 
+        WHERE id = ${this.id}`;
+        console.log(sql);
+        try{
+            const [result, _] = await db.execute(sql);
+        }catch{
+            return false;
+        }
+        return true;
     }
 
     static async deleteBook(id){

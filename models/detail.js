@@ -20,6 +20,7 @@ class Detail{
             imglink: book[0].img_link,
             postdate: book[0].post_date,
             title: book[0].title,
+            genre_id: book[0].genre_id,
             genre: genre[0].genre_name,
             author: book[0].author,
             like: like[0].numlike,

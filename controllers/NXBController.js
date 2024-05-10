@@ -21,3 +21,15 @@ exports.addBook = async (req, res, next) => {
     }
     res.send(true); 
 }
+exports.updateBook = async (req, res, next) => {
+    let {id, title,genre,author,describes,img_link} = req.body;
+
+    let genre_id = await Genre.getGenreIds(genre);
+    let newbook = new Book(id, title, author, describes, img_link, genre_id);
+    try{
+        newbook.updateBook();
+    }catch{
+        res.send(false);
+    }
+    res.send(true); 
+}

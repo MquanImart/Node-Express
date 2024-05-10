@@ -17,7 +17,8 @@ class Genre {
         return {"genre_ids" : genreIds};
     }
     static async getGenreIds(name_genre){
-        let sql = `SELECT id FROM genre WHERE genre_name = '${name_genre}'`
+        let sql = `SELECT id FROM genre WHERE genre_name = '${name_genre}'`;
+        console.log(sql);
         const [result, _] = await db.execute(sql);
         return result[0].id;
     }
