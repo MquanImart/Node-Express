@@ -11,8 +11,6 @@ exports.getBook = async (req, res, next) => {
 
 exports.addBook = async (req, res, next) => {
     try {
-        console.log("Request Body:", req.body); // Print req.body for debugging
-        
         const { title, author, describes, img_link, genre_id } = req.body;
         
         // Check if required parameters are undefined
@@ -37,8 +35,14 @@ exports.addBook = async (req, res, next) => {
 }
 
 exports.deleteBook = async (req, res, next) => {
-    let id = req.query.id;
-    result = await Book.deleteBook(id);
+    /*
+    Request format: 
+    {
+        "ids" : []
+    }
+    */
+    let ids = req.body.ids
+    result = await Book.deleteBook(ids);
     if (result){
         res.send(true);
     }
@@ -48,12 +52,52 @@ exports.deleteBook = async (req, res, next) => {
 }
 
 exports.getBookById = async (req, res, next) => {
-    let id = req.params.id;
-    result = await Book.getBooksByIds(id);
+    /*
+    Request format: 
+    {
+        "ids" : []
+    }
+    */
+    let ids = req.body.ids
+    result = await Book.getBooksByIds(ids);
     if (result){
         res.send(result);
     }
     else{
-        res.send(false)
+        res.send(false);
+    }
+}
+
+exports.getFavBooks = async (req, res, next) => {
+    /*
+    Request format: 
+    {
+        "user_id" : number
+    }
+    */
+    let user_id = req.body.user_id;
+    result = await Book.getFavBooks(user_id);
+    if (result){
+        res.send(result);
+    }
+    else{
+        res.send(false);
+    }
+}
+
+exports.getRecentViewBooks = async (req, res, next) => {
+    /*
+    Request format: 
+    {
+        "user_id" : number
+    }
+    */
+    let user_id = req.body.user_id;
+    result = await Book.getRecentViewBooks(user_id)
+    if (result){
+        res.send(result);
+    }
+    else{
+        res.send(false);
     }
 }

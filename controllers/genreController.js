@@ -14,3 +14,14 @@ exports.addGenre = async (req, res, next) => {
         res.send(false);
     }
 }
+
+exports.getFavGenreIds = async (req, res, next) => {
+    let user_id = req.body.user_id;
+    result = await Genre.getFavGenreIds(user_id)
+    if (result){
+        res.send(result);
+    }
+    else{
+        res.send(false);
+    }
+}
