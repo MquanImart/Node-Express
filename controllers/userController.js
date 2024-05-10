@@ -42,3 +42,13 @@ exports.getGenreById = async (req, res, next) => {
         res.send(false)
     }
 }
+exports.updateInfo = async (req, res, next) => {
+    let {name, email, sdt, dob, gender, id} = req.body;
+    result = await User.updateInfoSql(name, email, sdt, dob, gender, id);
+    if (result){
+        res.send(result);
+    }
+    else{
+        res.send(false)
+    }
+}

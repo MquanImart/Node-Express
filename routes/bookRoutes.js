@@ -11,8 +11,5 @@ router.route("/addBook/").post(bookController.addBook);
 router.route("/deleteBook/").get(bookController.deleteBook)
 router.route("/getFavBooks").get(bookController.getFavBooks)
 router.route("/getRecentViewBooks").get(bookController.getRecentViewBooks)
-router.route("/imgSearch").post(bookController.imgSearch)
-router.route("/textSearch").post(bookController.textSearch)
-
 
 module.exports = router;

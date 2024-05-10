@@ -14,6 +14,7 @@ app.use("/search", require("./routes/searchRoutes"));
 app.use("/detail", require("./routes/detailRoutes"));
 app.use("/propose", require("./routes/proposeRoutes"));
 app.use("/user", require("./routes/userRoutes"));
+app.use("/nxb", require("./routes/NXBRoutes"));
 // Global Error Handler. IMPORTANT function params MUST start with err
 app.use((err, req, res, next) => {
   console.log(err.stack);
