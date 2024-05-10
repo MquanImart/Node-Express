@@ -16,7 +16,11 @@ class Genre {
         const genreIds = result.map(row => row.id_genre);
         return {"genre_ids" : genreIds};
     }
-
+    static async getGenreIds(name_genre){
+        let sql = `SELECT id FROM genre WHERE genre_name = '${name_genre}'`
+        const [result, _] = await db.execute(sql);
+        return result[0].id;
+    }
     static async addGenre(id, listgenre){
         const selectedIds = [];
         const deletedIds = [];

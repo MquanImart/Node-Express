@@ -12,6 +12,19 @@ class User{
         result[0].dob = result[0].dob.split(",")[0];
         return result;
     }
+    static async updateInfoSql(name, email, sdt, dob, gender, id){
+        let sql = `UPDATE info_user 
+        set name = '${name}', email = '${email}', 
+        phone = '${sdt}', gender = ${gender}, dob = '${dob}'
+        WHERE id = ${id};`;
+        try{
+            await db.execute(sql);
+        }
+        catch{
+            return false;
+        }
+        return true;
+    }
 }
 
 module.exports = User;

@@ -58,7 +58,7 @@ exports.getBookById = async (req, res, next) => {
         "ids" : []
     }
     */
-    let ids = req.body.ids
+    let ids = req.body.ids;
     result = await Book.getBooksByIds(ids);
     if (result){
         res.send(result);
