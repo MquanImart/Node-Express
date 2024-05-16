@@ -5,7 +5,7 @@ const router = express.Router();
 router.route("/getBook/").get(bookController.getBook);
 router.route("/getBookById/:id").get(bookController.getBookById);
 router.route("/addBook/").post(bookController.addBook);
-router.route("/deleteBook/").get(bookController.deleteBook)
+router.route("/deleteBook/").post(bookController.deleteBook)
 router.route("/getFavBooks").get(bookController.getFavBooks)
 router.route("/getRecentViewBooks").get(bookController.getRecentViewBooks)
 router.route("/imgSearch").post(bookController.imgSearch)

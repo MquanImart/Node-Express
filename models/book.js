@@ -63,8 +63,14 @@ class Book{
     }
 
     static async deleteBook(id){
-        let sql = `UPDATE book SET active=0 WHERE id IN (?)`;
-        const [result, _] = await db.execute(sql, id);
+        let check = `SELECT active FROM book WHERE id = ${id}`;
+        const [resultcheck, __] = await db.execute(check);
+
+        let sql = `UPDATE book SET active=0 WHERE id = ${id}`;
+        if (resultcheck[0].active == 0){
+            sql = `UPDATE book SET active=1 WHERE id = ${id}`;
+        }
+        const [result, _] = await db.execute(sql);
         return result;
     }
     static async createNewId(){

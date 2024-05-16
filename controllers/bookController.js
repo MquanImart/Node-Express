@@ -43,8 +43,8 @@ exports.deleteBook = async (req, res, next) => {
         "ids" : []
     }
     */
-    let ids = req.body.ids
-    result = await Book.deleteBook(ids);
+    let id = req.body.id
+    result = await Book.deleteBook(id);
     if (result){
         res.send(true);
     }
@@ -121,7 +121,9 @@ exports.imgSearch = async (req, res, next) => {
             const responseData = await response.json();
             console.log(responseData);
             // Xử lý phản hồi từ server Flask nếu cần
-            res.json(responseData);
+            let result = await Book.getBooksByIds(responseData.ids);
+            // Xử lý phản hồi từ server Flask nếu cần
+            res.json(result);
         } else {
             // Xử lý lỗi nếu có
             console.error('Server response not ok:', response.statusText);
@@ -148,8 +150,9 @@ exports.textSearch = async (req, res, next) => {
         if (response.ok) {
             const responseData = await response.json();
             console.log(responseData);
+            let result = await Book.getBooksByIds(responseData.ids);
             // Xử lý phản hồi từ server Flask nếu cần
-            res.json(responseData);
+            res.json(result);
         } else {
             // Xử lý lỗi nếu có
             console.error('Server response not ok:', response.statusText);
