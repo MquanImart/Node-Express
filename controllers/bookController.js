@@ -162,3 +162,30 @@ exports.textSearch = async (req, res, next) => {
     }
 };
 
+exports.textSearch2 = async (req, res, next) => {
+    const bodyData = req.body;
+    try {
+        const response = await fetch('http://127.0.0.1:5000/querytext2', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bodyData),
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData);
+            // Xử lý phản hồi từ server Flask nếu cần
+            res.json(responseData);
+        } else {
+            // Xử lý lỗi nếu có
+            console.error('Server response not ok:', response.statusText);
+            res.status(response.status).send('Server Error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        // Xử lý lỗi nếu có
+        res.status(500).send('Internal Server Error')
+    }
+};
