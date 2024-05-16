@@ -32,11 +32,10 @@ class Detail{
         return result;
     }
     static async getCommentById(bookid){
-        const sql = `SELECT rate.score, info_user.name, comments.*
-        FROM rate
-        INNER JOIN info_user ON rate.user_id = info_user.id
-        INNER JOIN comments ON rate.user_id = comments.user_id
-        WHERE rate.book_id = ${bookid}`;
+        const sql = `SELECT rate.score, info_user.name, R1.*
+        FROM (SELECT * FROM comments WHERE book_id = ${bookid}) R1
+        INNER JOIN info_user ON R1.user_id = info_user.id
+        INNER JOIN rate ON R1.user_id = rate.user_id and R1.book_id = rate.book_id`;
         const [comment, _____] = await db.execute(sql);
         return comment;
     }

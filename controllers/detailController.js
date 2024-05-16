@@ -1,8 +1,10 @@
 const Detail = require('../models/detail');
+const History = require('../models/history');
 exports.getBookById = async (req, res, next) => {
-    let id = req.params.id;
-    result = await Detail.getBooksByIds(id);
+    let {user_id, book_id} = req.body;
+    result = await Detail.getBooksByIds(book_id);
     if (result){
+        await History.postNew(user_id, book_id);
         res.send(result);
     }
     else{

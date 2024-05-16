@@ -50,6 +50,28 @@ class Search {
         const [result, __] = await db.execute(sql);
         return result;
     }
+    static async getBooksAvendcedSearch(bookIds, genre_name, author, sort_name, direction) {
+        if (sort_name == null){
+            sort_name = 'post_date';
+            direction = 'DESC';
+        }
+        let sqlgenre = `SELECT id FROM genre WHERE genre_name = '${genre_name}';`
+        const [genre, _] = await db.execute(sqlgenre);
+        let sql = `SELECT book.* FROM book WHERE id IN (${bookIds}) ORDER BY ${sort_name} ${direction};`
+        
+        if (genre != '' && author != null){
+            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and author = '${author}' and id IN (${bookIds})) ORDER BY ${sort_name} ${direction};`
+        }
+        else if (genre != ''){
+            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and id IN (${bookIds})) ORDER BY ${sort_name} ${direction};`
+        }
+        else if (author != null){
+            sql = `SELECT book.* FROM book WHERE (author = '${author}' and id IN (${bookIds})) ORDER BY ${sort_name} ${direction};`
+        }
+        console.log(sql);
+        const [result, __] = await db.execute(sql);
+        return result;
+    }
 }
 
 module.exports = Search;
