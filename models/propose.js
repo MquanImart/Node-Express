@@ -19,19 +19,19 @@ class Propose {
     }
 
     static async getHotSql(){  
-        let sql = `SELECT book.*, genre.genre_name FROM book JOIN genre ON book.genre_id = genre.id ORDER BY view DESC LIMIT 20;`
+        let sql = `SELECT book.*, genre.genre_name FROM book JOIN genre ON book.genre_id = genre.id WHERE active = 1 ORDER BY view DESC LIMIT 20;`
         const [result, __] = await db.execute(sql);
         return result;
     }
 
     static async getHistorySql(id_user){  
-        let sql = `SELECT book.*, h_v.view_time FROM book JOIN (SELECT * FROM history_view WHERE user_id = ${id_user}) as h_v ON book.id = h_v.book_id ORDER BY view_time DESC LIMIT 20;`
+        let sql = `SELECT book.*, h_v.view_time FROM book JOIN (SELECT * FROM history_view WHERE user_id = ${id_user}) as h_v ON book.id = h_v.book_id WHERE active = 1 ORDER BY view_time DESC LIMIT 20;`
         const [result, __] = await db.execute(sql);
         console.log(sql);
         return result;
     }
     static async getLoveBookSql(id_user){  
-        let sql = `SELECT book.* FROM book JOIN (SELECT * FROM fav_book WHERE user_id = ${id_user}) as favb ON book.id = favb.book_id ORDER BY id ASC;`
+        let sql = `SELECT book.* FROM book JOIN (SELECT * FROM fav_book WHERE user_id = ${id_user}) as favb ON book.id = favb.book_id WHERE active = 1 ORDER BY id ASC;`
         const [result, __] = await db.execute(sql);
         console.log(sql);
         return result;
@@ -39,6 +39,25 @@ class Propose {
     static async deleteBookLove(id_user, id_book){  
         let sql = `DELETE FROM fav_book WHERE user_id = ${id_user} and book_id = ${id_book};`
         console.log(sql);
+        try{
+            await db.execute(sql);
+        }catch{
+            return false;
+        }
+        return true;
+    }
+    static async addBookLove(id_user, id_book){  
+        let check = `SELECT * FROM fav_book WHERE user_id = ${id_user} and book_id = ${id_book};`
+        let [result, _] = [];
+        try{
+            [result, _] = await db.execute(check);
+        }catch{
+            return false;
+        }
+        if (result.length>0){
+            return true;
+        }
+        let sql = `INSERT INTO fav_book(user_id, book_id) values(${id_user}, ${id_book});`
         try{
             await db.execute(sql);
         }catch{

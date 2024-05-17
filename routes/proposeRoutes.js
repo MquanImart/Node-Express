@@ -7,4 +7,5 @@ router.route("/hot/").get(proposeController.getHot);
 router.route("/history/:id_user").get(proposeController.getHistory);
 router.route("/love/:id_user").get(proposeController.getLoveBook);
 router.route("/deletelovebook/").post(proposeController.deleteBookLove);
+router.route("/addbook/").post(proposeController.addBookLove);
 module.exports = router;
