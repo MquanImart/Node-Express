@@ -57,19 +57,26 @@ class Search {
         }
         let sqlgenre = `SELECT id FROM genre WHERE genre_name = '${genre_name}';`
         const [genre, _] = await db.execute(sqlgenre);
-        let sql = `SELECT book.* FROM book WHERE id IN (${bookIds}) ORDER BY ${sort_name} ${direction};`
         
-        if (genre != '' && author != null){
-            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and author = '${author}' and id IN (${bookIds})) ORDER BY ${sort_name} ${direction};`
+        let result = []
+        for (let i = 0; i < bookIds.length; i++) {
+            let sql = `SELECT book.* FROM book WHERE id = ${bookIds[i]} ORDER BY ${sort_name} ${direction};`
+            if (genre != '' && author != null){
+                sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and author = '${author}' and id = ${bookIds[i]}) ORDER BY ${sort_name} ${direction};`
+            }
+            else if (genre != ''){
+                sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and id = ${bookIds[i]}) ORDER BY ${sort_name} ${direction};`
+            }
+            else if (author != null){
+                sql = `SELECT book.* FROM book WHERE (author = '${author}' and id = ${bookIds[i]}) ORDER BY ${sort_name} ${direction};`
+            }
+            const [book, __] = await db.execute(sql);
+            if (book[0])
+                result.push(book[0]);
         }
-        else if (genre != ''){
-            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and id IN (${bookIds})) ORDER BY ${sort_name} ${direction};`
-        }
-        else if (author != null){
-            sql = `SELECT book.* FROM book WHERE (author = '${author}' and id IN (${bookIds})) ORDER BY ${sort_name} ${direction};`
-        }
-        console.log(sql);
-        const [result, __] = await db.execute(sql);
+        return result;
+
+        
         return result;
     }
 }

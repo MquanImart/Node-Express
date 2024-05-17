@@ -25,6 +25,7 @@ exports.searchAdvanced = async (req, res, next) => {
 
             if (response.ok) {
                 const responseData = await response.json();
+                console.log(responseData.ids)
                 result = await Search.getBooksAvendcedSearch(responseData.ids, genre_name, author, sort_name, direction);
                 // Xử lý phản hồi từ server Flask nếu cần
             } else {
