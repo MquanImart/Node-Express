@@ -26,7 +26,6 @@ class Book{
         let result = [];
         for (let i = 0; i < bookIds.length; i++) {
             const book = await this.getBooksById(bookIds[i]);
-            console.log(book)
             if (book[0])
                 result.push(book[0]);
         }
