@@ -63,3 +63,8 @@ exports.Resgister = async (req, res, next) => {
         res.send(false);
     }
 }
+exports.getRole = async (req, res, next) => {
+    let id = req.params.id;
+    let result = await Account.getRole(id);
+    res.send({role_id: result});
+}

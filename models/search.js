@@ -18,16 +18,16 @@ class Search {
         }
         let sqlgenre = `SELECT id FROM genre WHERE genre_name = '${genre_name}';`
         const [genre, _] = await db.execute(sqlgenre);
-        let sql = `SELECT book.* FROM book ORDER BY ${sort_name} ${direction};`
+        let sql = `SELECT book.* FROM book WHERE active = 1 ORDER BY ${sort_name} ${direction};`
         
         if (genre != '' && author != null){
-            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and author = '${author}') ORDER BY ${sort_name} ${direction};`
+            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and author = '${author}' and active = 1) ORDER BY ${sort_name} ${direction};`
         }
         else if (genre != ''){
-            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}') ORDER BY ${sort_name} ${direction};`
+            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and active = 1) ORDER BY ${sort_name} ${direction};`
         }
         else if (author != null){
-            sql = `SELECT book.* FROM book WHERE (author = '${author}') ORDER BY ${sort_name} ${direction};`
+            sql = `SELECT book.* FROM book WHERE (author = '${author}' and active = 1) ORDER BY ${sort_name} ${direction};`
         }
         console.log(sql);
         const [result, __] = await db.execute(sql);
@@ -43,9 +43,9 @@ class Search {
         const [genre, _] = await db.execute(sqlgenre);
         let sql = null;
         if (genre == ''){
-            sql = `SELECT book.* FROM book ORDER BY post_date DESC;`;
+            sql = `SELECT book.* FROM book WHERE active = 1 ORDER BY post_date DESC;`;
         }else{
-            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}') ORDER BY post_date DESC;`;
+            sql = `SELECT book.* FROM book WHERE (genre_id = '${genre[0].id}' and active = 1) ORDER BY post_date DESC;`;
         }
         const [result, __] = await db.execute(sql);
         return result;

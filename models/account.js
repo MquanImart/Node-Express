@@ -90,6 +90,13 @@ class Account {
 
       const [result1, __] = await db.execute(sql);
     }
-
+    static async getRole(id){
+      let sql = `SELECT role_id FROM accounts WHERE id = '${id}';`;
+      const [account, _] = await db.execute(sql);
+      if (account.length>0){
+        return account[0].role_id;
+      }
+      return false;
+  }
 }
 module.exports = Account;
