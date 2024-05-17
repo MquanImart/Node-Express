@@ -14,8 +14,9 @@ exports.addComment = async (req, res, next) => {
 
         if (response.ok) {
             const responseData = await response.json();
-            console.log(responseData);
+            // console.log(responseData);
             sentiment = parseInt(responseData.result);
+            console.log(sentiment)
 
         } else {
             console.error('Server response not ok:', response.statusText);

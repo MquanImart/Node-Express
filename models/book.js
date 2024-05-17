@@ -23,7 +23,16 @@ class Book{
         return result;
     }
     static async getBooksByIds(bookIds) {
-        const sql = `SELECT * FROM book WHERE id IN (${bookIds}) and active=1;`;
+        let result = [];
+        for (let i = 0; i < bookIds.length; i++) {
+            const book = await this.getBooksById(bookIds[i]);
+            result.push(book);
+        }
+        return result;
+    }
+    
+    static async getBooksById(bookid){
+        const sql = `SELECT * FROM book WHERE id = ${bookid} and active=1;`;
         const [result, _] = await db.execute(sql);
         return result;
     }

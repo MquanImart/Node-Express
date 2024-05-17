@@ -14,12 +14,13 @@ class FeedBack{
         let sql = `INSERT INTO comments(book_id, user_id, content, comment_date, sentiment) values(${book_id}, ${user_id}, '${content}', '${post_date}', '${sentiment}')`;
         let sql_rate = `INSERT INTO rate(book_id, user_id, score, rate_date) values(${book_id}, ${user_id}, '${star}', '${post_date}')`;
         if (result.length > 0){
-            sql = `UPDATE comments set content = '${content}', comment_date = '${post_date}' 
+            sql = `UPDATE comments set content = '${content}', comment_date = '${post_date}', sentiment = ${sentiment}
                     WHERE user_id = ${user_id} and book_id = ${book_id}`;
             sql_rate = `UPDATE rate set score = '${star}', rate_date = '${post_date}' 
                     WHERE user_id = ${user_id} and book_id = ${book_id}`;
         }
         try{
+            console.log(sql)
             await db.execute(sql);
             await db.execute(sql_rate);
         }catch{
