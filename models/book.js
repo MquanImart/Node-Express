@@ -97,6 +97,16 @@ class Book{
         }
         return i;
     }
+    static async increaseView(bookid){
+        const sql = `UPDATE book set view = view + 1 WHERE id = ${bookid}`;
+        try{
+            await db.execute(sql);
+        return true;
+        }
+        catch{
+            return false;
+        }
+    }
 }
 
 module.exports = Book;

@@ -1,18 +1,18 @@
 const db = require('../config/db');
 class Detail{
     static async getBooksByIds(bookIds) {
-        const sql = `SELECT * FROM book WHERE id IN (${bookIds});`;
+        const sql = `SELECT * FROM book WHERE id = ${bookIds};`;
         const [book, _] = await db.execute(sql);
         if (book == ''){
             return false;
         }
         const sqlgenre = `SELECT genre_name FROM genre WHERE id = ${book[0].genre_id}`;
         const [genre, __] = await db.execute(sqlgenre);
-        const sqllike = `SELECT count(*) as numlike FROM fav_book WHERE book_id = ${book[0].genre_id}`;
+        const sqllike = `SELECT count(*) as numlike FROM fav_book WHERE book_id = ${bookIds}`;
         const [like, ___] = await db.execute(sqllike);
-        const sqlrate = `SELECT avg(score) as numrate FROM rate WHERE book_id = ${book[0].genre_id}`;
+        const sqlrate = `SELECT avg(score) as numrate FROM rate WHERE book_id = ${bookIds}`;
         const [rate, ____] = await db.execute(sqlrate);
-        const sqlcomment = `SELECT count(*) as numcomment FROM comments WHERE book_id = ${book[0].genre_id}`;
+        const sqlcomment = `SELECT count(*) as numcomment FROM comments WHERE book_id = ${bookIds}`;
         const [comment, _____] = await db.execute(sqlcomment);
 
         let result = {
